@@ -1,0 +1,117 @@
+.form-group {
+  align-items: center;
+
+}
+
+.accountAdmin {
+  padding: 20px;
+
+  &__title {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.map-iframe iframe {
+  width: 100%;
+}
+
+#stationVerifyStatus {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-variant: tabular-nums;
+  list-style: none;
+  font-feature-settings: 'tnum', "tnum";
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  min-width: 0;
+  padding: 4px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  line-height: 1.5715;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+#stations-data-table {
+
+  .rdt_TableCol,
+  .rdt_TableCell {
+    padding: .72rem;
+
+    &:first-child {
+      padding-left: 1.5rem;
+    }
+
+    &:last-child {
+      padding-right: 1.5rem;
+    }
+  }
+}
+
+.olnine {
+  width: 100px;
+  display: flex;
+  flex-wrap: nowrap;
+
+  .circle_red {
+    background-color: red;
+    margin-top: 14px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  }
+
+  .text_olnine {
+    padding-left: 10px;
+    margin-top: 14px;
+    width: 70px;
+  }
+}
+
+.circle_blue {
+  background-color: chartreuse;
+  margin-top: 14px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.block-width {
+  height: 38px;
+}
+.margin {
+  margin: 12px;
+}
+.color_licensePlates{
+  margin-top: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+.color_white{
+  background-color: white;
+}
+.color_blue{
+  background-color: blue;
+  color: white;
+}
+.color_yellow{
+  background-color: yellow;
+}
+.color_red{
+  background-color: red;
+  color: white;
+}
+.clear_text{
+  display: none;
+}
