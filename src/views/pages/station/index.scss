@@ -1,0 +1,16 @@
+.form-group{
+  align-items: center;
+  
+}
+
+.accountAdmin{
+  padding: 20px;
+  &__title{
+    margin-bottom: 20px;
+    text-align: center;
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}
