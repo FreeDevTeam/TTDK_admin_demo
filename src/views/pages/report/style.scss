@@ -1,0 +1,18 @@
+.tables{
+    text-align: center;
+    overflow-x: auto;
+    &-text {
+        font-weight: bold;
+    }
+}
+
+@media all and (max-width: 576px) {
+    .tables{
+        &-text {
+            .mobie_style{
+                padding-right: 0;
+                padding-left: 0;
+            }
+        }
+    }
+ }
