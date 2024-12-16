@@ -1,0 +1,260 @@
+import { Fragment, useState, useEffect, memo } from 'react'
+import Service from '../../../services/request'
+import { injectIntl } from 'react-intl';
+import SationService from '../../../services/station'
+import { ChevronDown, } from 'react-feather'
+import DataTable from 'react-data-table-component'
+import ReactPaginate from 'react-paginate'
+import _ from "lodash";
+import moment from "moment";
+import Flatpickr from 'react-flatpickr'
+import "@styles/react/libs/tables/react-dataTable-component.scss";
+import '@styles/react/libs/flatpickr/flatpickr.scss'
+import { toast } from "react-toastify";
+import addKeyLocalStorage from "../../../helper/localStorage";
+import {
+  Card, Input, Label, Row, Col, UncontrolledDropdown, DropdownMenu, DropdownItem, DropdownToggle,
+  Modal, ModalHeader, ModalBody,
+  Button, FormGroup, Form, InputGroup, InputGroupButtonDropdown
+} from 'reactstrap'
+
+const DefaultFilter = {
+  filter: {
+
+  },
+  skip: 0,
+  limit: 5,
+}
+const statusOptions = [
+  { value: '', label: 'all' },
+  { value: 1, label: 'CAR' },
+  { value: 20, label: 'RO_MOC' },
+  { value: 10, label: 'OTHER' },
+]
+
+const Schedule = ({ intl }) => {
+  const [paramsFilter, setParamsFilter] = useState(DefaultFilter);
+  const [data, setData] = useState([])
+  const [total, setTotal] = useState(20)
+  const [rowsPerPage, setRowsPerPage] = useState(20)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
+  const [date, setDate] = useState('');
+
+  // const scheduleDay = (paramsFilter) => {
+  //   const newParams = {
+  //     ...paramsFilter
+  //   }
+
+  //   Object.keys(newParams.filter).forEach(key => {
+  //     if (!newParams.filter[key] || newParams.filter[key] === '') {
+  //       delete newParams.filter[key]
+  //     }
+  //   })
+
+  //   SationService.getList(newParams).then((result) => {
+  //     if (result) {
+  //       setData(result.data);
+  //     }
+  //   })
+  // }
+
+  function scheduleDay(params, isNoLoading) {
+    const newParams = {
+      ...params,
+    };
+    if (!isNoLoading) {
+      setIsLoading(true);
+    }
+    Object.keys(newParams.filter).forEach((key) => {
+      if (!newParams.filter[key] || newParams.filter[key] === "") {
+        delete newParams.filter[key];
+      }
+    });
+    const token = window.localStorage.getItem(addKeyLocalStorage("accessToken"));
+
+    if (token) {
+      const newToken = token.replace(/"/g, "");
+
+      Service.send({
+        method: "POST",
+        path: "CustomerSchedule/find",
+        data: newParams,
+        query: null,
+        headers: {
+          Authorization: `Bearer ` + newToken,
+        },
+      }).then((res) => {
+        if (res) {
+          const { statusCode, data, message } = res;
+          setParamsFilter(newParams);
+          if (statusCode === 200) {
+            setTotal(data.total);
+            setData(data.data);
+          } else {
+            toast.warn(intl.formatMessage({ id: "actionFailed" }));
+          }
+        } else {
+          setTotal(1);
+          setData([]);
+        }
+        if (!isNoLoading) {
+          setIsLoading(false);
+        }
+      });
+    } else {
+      window.localStorage.clear();
+    }
+  }
+  const serverSideColumns = [
+    {
+      name: intl.formatMessage({ id: 'schedules' }),
+      selector: 'dateSchedule',
+      sortable: true,
+      minWidth: '150px',
+      maxWidth: '150px',
+    },
+    {
+      name: intl.formatMessage({ id: 'transportation' }),
+      selector: 'vehicleType',
+      minWidth: '200px',
+      maxWidth: '200px',
+    }
+  ]
+
+  // ** Function to handle Pagination and get data
+  const handlePagination = page => {
+
+    const newParams = {
+      ...paramsFilter,
+      skip: (page.selected) * paramsFilter.limit
+    }
+    scheduleDay(newParams)
+    setCurrentPage(page.selected + 1)
+
+  }
+
+  // ** Custom Pagination
+  const CustomPagination = () => {
+    const count = Number(Math.ceil(total / rowsPerPage).toFixed(0))
+
+    return (
+      <ReactPaginate
+        previousLabel={''}
+        nextLabel={''}
+        breakLabel='...'
+        pageCount={count || 1}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={2}
+        activeClassName='active'
+        forcePage={currentPage !== 0 ? currentPage - 1 : 0}
+        onPageChange={page => handlePagination(page)}
+        pageClassName={'page-item'}
+        nextLinkClassName={'page-link'}
+        nextClassName={'page-item next'}
+        previousClassName={'page-item prev'}
+        previousLinkClassName={'page-link'}
+        pageLinkClassName={'page-link'}
+        breakClassName='page-item'
+        breakLinkClassName='page-link'
+        containerClassName={
+          'pagination react-paginate separated-pagination pagination-sm justify-content-end pr-1 mt-1'
+        }
+      />
+    )
+  }
+
+  const handleFilterChange = (name, value) => {
+    const newParams = {
+      ...paramsFilter,
+      filter: {
+        ...paramsFilter.filter,
+        [name]: value
+      },
+      skip: 0,
+    }
+    scheduleDay(newParams)
+  }
+
+  const getDataSearch = _.debounce((params) => {
+    scheduleDay(params, true);
+  }, 1000);
+
+  const handleFilterDay = (date) => {
+    const newDateObj = date.toString()
+    const newDate = moment(newDateObj).format("DD/MM/YYYY")
+    setDate(newDate)
+    const newParams = {
+      ...paramsFilter,
+      filter: {
+        dateSchedule: newDate
+      },
+    };
+    getDataSearch(newParams);
+  }
+
+
+  useEffect(() => {
+    scheduleDay(paramsFilter)
+  }, []);
+
+  return (
+    <>
+      <Row className='mx-0 mt-1 mb-50'>
+        <Col className="mb-1 "
+          sm="2" xs='6'>
+          <Flatpickr
+            id='single'
+            value={date}
+            options={{ mode: 'single', dateFormat: 'd/m/Y' }}
+            placeholder={intl.formatMessage({ id: "schedules" })}
+            className='form-control form-control-input'
+            onChange={(date) => {
+              handleFilterDay(date)
+              document.getElementById("clear").style.display = 'block'
+            }}
+          />
+        </Col>
+        <Col sm='1' className='mb-1 clear_text' id='clear'>
+          <Button className='form-control-input ' onClick={() => {
+            getDataSearch({
+              ...paramsFilter,
+              filter: {
+
+              },
+            })
+            setDate('')
+            document.getElementById("clear").style.display = 'none'
+          }}>X</Button>
+        </Col>
+        <Col sm='2' xs='6'>
+          <Input onChange={(e) => {
+            const { name, value } = e.target
+            handleFilterChange(name, value)
+          }} type='select' value={paramsFilter.filter ? (paramsFilter.filter.vehicleType || '') : ''} name='vehicleType' bsSize='xs' >
+            {
+              statusOptions.map(item => {
+                return <option value={item.value}>{intl.formatMessage({ id: item.label })}</option>
+              })
+            }
+          </Input>
+        </Col>
+      </Row>
+      <div id="users-data-table mx-0 mt-1 mb-50 margin">
+        <DataTable
+          noHeader
+          pagination
+          paginationServer
+          className='react-dataTable margin'
+          columns={serverSideColumns}
+          sortIcon={<ChevronDown size={10} />}
+          paginationComponent={CustomPagination}
+          data={data}
+          progressPending={isLoading}
+        />
+      </div>
+    </>
+  )
+}
+
+export default injectIntl(memo(Schedule));
