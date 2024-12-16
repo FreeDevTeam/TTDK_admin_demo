@@ -1,0 +1,22 @@
+.clear_text{
+    display: none;
+}
+.style_file{
+    padding-left: 10px;
+}
+.text{
+    margin-top: 12px;
+}
+.click_row{
+    cursor: pointer;
+    color: #66CCFF		;
+    text-decoration: underline;
+}
+.text-flow{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.form-control-file{
+    width: 81px;
+}
