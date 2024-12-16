@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/views/pages/setting/setting.scss"],"names":[],"mappings":"AAAA,eAAS,YAAY,CAAC,sBAAgB,iBAAiB,CAAC,iBAAiB","file":"23.440dbe4c.chunk.css","sourcesContent":[".setting{padding:24px}.setting__title{text-align:center;margin-bottom:2em}\n"]}

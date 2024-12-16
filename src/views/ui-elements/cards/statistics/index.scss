@@ -1,0 +1,8 @@
+.col-widget{
+    height: 220px;
+}
+@media all and (max-width : 576px) {
+    .col-widget{
+        height: 140px;
+    }
+}
