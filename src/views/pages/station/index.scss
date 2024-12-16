@@ -1,0 +1,148 @@
+.form-group {
+  align-items: center;
+
+}
+
+.accountAdmin {
+  padding: 20px;
+
+  &__title {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.map-iframe iframe {
+  width: 100%;
+}
+
+#page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+#page-title {
+  font-weight: 600;
+  font-size: 18px;
+  color: #222;
+  padding-right: 12px;
+  margin-right: 12px;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+#number-station {
+  font-weight: 500;
+  font-size: 15px;
+  color: #8F90A6;
+}
+
+#action-button {
+  width: 120px;
+  height: 36px;
+  align-items: center;
+}
+
+#list-stations {
+  max-height: 800px;
+  overflow-y: scroll;
+}
+
+#station-card {
+  min-width: 453px;
+  height: 134px;
+  background: #fff;
+  box-shadow: 0px 1px 0px #DBDFEE, 0px -1px 0px #E6E9F5;
+  margin-bottom: 0;
+  border-radius: 0;
+
+  &[data-choosen='true'] {
+    background: #F2F8FF;
+    box-shadow: px 1px 0px #E6E9F5, 0px -1px 0px #E6E9F5;
+    ;
+  }
+}
+
+#card-title {
+  font-size: 15px;
+  color: #222;
+  height: 22px;
+
+  &[data-choosen='true'] {
+    color: #0E57B7;
+  }
+}
+
+#card-text {
+  font-size: 15px;
+  color: #222;
+  font-weight: 400;
+}
+
+#general-row {
+  margin-bottom: 12px;
+  color: #222;
+}
+
+#row-separateline {
+  border-bottom: 1px solid #E6E9F5;
+  margin: 20px 12px;
+}
+
+#general-form {
+  border: 1px solid #fff;
+  background: #fff;
+  min-width: 690px;
+  width: calc(100% - 453px);
+  margin-left: 20px;
+  height: 680px;
+}
+
+#camera-form {
+  border: 1px solid #fff;
+  background: #fff;
+  min-width: 690px;
+  width: calc(100% - 453px);
+  margin-left: 20px;
+}
+
+#general-header {
+  display: flex;
+  justify-content: space-between;
+  margin: 28px 12px 20px 12px;
+}
+
+#general-title {
+  font-weight: 600;
+  font-size: 18px;
+  color: #222;
+}
+
+#btn-update {
+  height: 20px;
+  font-weight: 500;
+  font-size: 15px;
+  color: #0073FF;
+  align-content: center;
+}
+
+#camera-title {
+  font-weight: 600;
+  font-size: 16px;
+  color: #222;
+}
+
+#camera-status {
+  font-weight: 500;
+  font-size: 15px;
+  color: #49BD02;
+
+  &[data-status='false'] {
+    color: #D90027;
+  }
+}
