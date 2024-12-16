@@ -1,0 +1,21 @@
+.accountAdmin{
+    padding: 20px;
+    &__title{
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  }
+
+.close-btn {
+  position: absolute;
+  right: 20px;
+  top: 7px;
+  cursor: pointer;
+}
+
+.text-no-wrap {
+  white-space: nowrap;
+}
+.stations-select {
+  height: 320px;
+}
